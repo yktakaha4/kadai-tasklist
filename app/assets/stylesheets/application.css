@@ -13,3 +13,8 @@
  *= require_tree .
  *= require_self
  */
+
+.table th, .table td {
+  word-wrap: break-word;
+  word-break: break-all;
+}

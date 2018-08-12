@@ -3,7 +3,7 @@ class TasksController < ApplicationController
   before_action :init_definitions
 
   def index
-    @tasks = Task.all
+    @tasks = Task.all.page(params[:page]).per(5)
   end
 
   def show
