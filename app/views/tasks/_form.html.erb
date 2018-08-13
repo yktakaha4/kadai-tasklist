@@ -37,7 +37,7 @@
 <%= f.label :status, 'ステータス' %>
 
         
-<%= f.text_field :status, class: 'form-control' %>
+<%= f.select :status, @status_list.invert, { :include_blank => true }, { :class => 'form-control' } %>
 
       </div>
 
