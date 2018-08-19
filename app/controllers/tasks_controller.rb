@@ -1,10 +1,11 @@
 class TasksController < ApplicationController
   before_action :require_user_logged_in
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :init_definitions
 
   def index
-    @tasks = Task.all.reverse_order.page(params[:page]).per(10)
+    @tasks = current_user.tasks.reverse_order.page(params[:page]).per(10)
   end
 
   def show
@@ -15,7 +16,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
 
     if @task.save
       flash[:success] = 'Task が正常に投稿されました'
@@ -59,6 +60,13 @@ class TasksController < ApplicationController
   
   def init_definitions
     @status_list = {'ready' => '着手可', 'doing' => '着手中', 'done' => '完了', 'onhold' => '保留'}
+  end
+
+  def correct_user
+    @task = current_user.tasks.find_by(id: params[:id])
+    unless @task
+      redirect_to root_url
+    end
   end
   
 end
